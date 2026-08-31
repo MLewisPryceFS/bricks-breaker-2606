@@ -81,9 +81,16 @@ void Game::Render() const
 	ball.Draw();
 
 	// TODO #3 - Update render to render all bricks
-	for (int i = 0; i < bricks.size(); i++) 
+	int count = 0; 
+	while (count < bricks.size()) 
 	{
-		bricks[i].Draw();
+		bricks[count].Draw();
+		count++;
+	}
+	
+	if (!ball.moving) 
+	{
+		Console::CursorVisible(true);
 	}
 
 	Console::Lock(false);
@@ -99,11 +106,18 @@ void Game::CheckCollision()
 			ball.y_velocity *= -1;
 
 			// TODO #5 - If the ball hits the same brick 3 times (color == black), remove it from the vector
+			if (bricks[i].color == Black) 
+			{
+				bricks.erase(bricks.begin() + i);
+			}
 
 		}
 	}
 	// TODO #6 - If no bricks remain, pause ball and display (render) victory text with R to reset
-
+	if (bricks.empty()) 
+	{
+		ball.moving = false;
+	}
 
 	if (paddle.Contains(ball.x_position + ball.x_velocity, ball.y_velocity + ball.y_position))
 	{
