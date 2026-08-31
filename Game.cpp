@@ -3,6 +3,7 @@
 
 Game::Game()
 {
+	
 	Reset();
 }
 
@@ -64,7 +65,13 @@ bool Game::Update()
 		ball.moving = !ball.moving;
 
 	if (GetAsyncKeyState('R') & 0x1)
+	{
+		if (!bricks.empty()) 
+		{
+			bricks.clear();
+		}
 		Reset();
+	}
 
 	ball.Update();
 	CheckCollision();
@@ -90,7 +97,20 @@ void Game::Render() const
 	
 	if (!ball.moving) 
 	{
-		Console::CursorVisible(true);
+		int Width_Center = WINDOW_WIDTH / 2;
+		int Height_Center = WINDOW_HEIGHT / 2; 
+		Console::SetCursorPosition(Width_Center,Height_Center-7);
+		if (bricks.empty()) 
+		{
+			std::cout << "You Have Won.\n";
+			
+		}
+		if (ball.y_position == paddle.y_position) 
+		{
+			std::cout << "You Have Lost.\n";
+		}
+		Console::SetCursorPosition(Width_Center, Height_Center-5);
+		std::cout << "Press 'R' to reset";
 	}
 
 	Console::Lock(false);
@@ -125,4 +145,9 @@ void Game::CheckCollision()
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
+	if (ball.y_position == paddle.y_position) 
+	{
+		ball.moving = false;
+	
+	}
 }
