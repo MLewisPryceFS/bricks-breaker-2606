@@ -31,20 +31,16 @@ void Game::Reset()
 	
 	for (int i = 0; i < numOfbricks; i++) 
 	{
-		if (i % 8 == 0) 
-		{
-			brick.y_position += 2;
-			brick.x_position = 0;
-		}
+		
 		bricks.push_back(brick);
-		brick.x_position += 10;
+		brick.x_position += 17; 
 	}
 }
 
 void Game::ResetBall()
 {
 	ball.x_position = paddle.x_position + paddle.width / 2;
-	ball.y_position = paddle.y_position - 1;
+	ball.y_position = paddle.y_position -1;
 	ball.x_velocity = rand() % 2 ? 1 : -1;
 	ball.y_velocity = -1;
 	ball.moving = true;
@@ -105,7 +101,7 @@ void Game::Render() const
 			std::cout << "You Have Won.\n";
 			
 		}
-		if (ball.y_position == paddle.y_position) 
+		else
 		{
 			std::cout << "You Have Lost.\n";
 		}
@@ -145,9 +141,12 @@ void Game::CheckCollision()
 	}
 
 	// TODO #7 - If ball touches bottom of window, pause ball and display (render) defeat text with R to reset
-	if (ball.y_position == paddle.y_position) 
+	if (ball.y_position == paddle.y_position+1) 
 	{
+		
 		ball.moving = false;
+		ball.x_velocity = 0;
+		ball.y_velocity = 0;
 	
 	}
 }
