@@ -91,20 +91,28 @@ void Game::Render() const
 		count++;
 	}
 	
-	if (!ball.moving) 
+	if (!ball.moving)
 	{
 		int Width_Center = WINDOW_WIDTH / 2;
 		int Height_Center = WINDOW_HEIGHT / 2; 
 		Console::SetCursorPosition(Width_Center,Height_Center-7);
+		
 		if (bricks.empty()) 
 		{
 			std::cout << "You Have Won.\n";
 			
 		}
-		else
+		else if (!bricks.empty() && ball.y_position >= paddle.y_position+1)
 		{
-			std::cout << "You Have Lost.\n";
+			std::cout << "You have lost!\n";
 		}
+		else 
+		{
+		
+				std::cout << "Pause!\n";
+			
+		}
+		
 		Console::SetCursorPosition(Width_Center, Height_Center-5);
 		std::cout << "Press 'R' to reset";
 	}
